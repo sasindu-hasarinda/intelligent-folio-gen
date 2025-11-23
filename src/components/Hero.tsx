@@ -25,7 +25,7 @@ const Hero = () => {
   const [currentTagline, setCurrentTagline] = useState(0);
   const [imgError, setImgError] = useState(false);
   const [taglineProgress, setTaglineProgress] = useState("");
-  const fullTagline = "IT & Quality Assurance Professional";
+  const fullTagline = "IT & Quality Assurance Professional • Associate / Executive – Data Analyst";
 
   useEffect(() => {
     // Typewriter effect for tagline
