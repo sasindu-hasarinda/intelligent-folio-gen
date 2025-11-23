@@ -1,15 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Download, Mail } from "lucide-react";
+import profileImage from "@/assets/profile.png";
 
 const Hero = () => {
   return (
     <section className="min-h-screen flex items-center justify-center px-4 py-20 animate-fade-up">
       <div className="max-w-6xl w-full text-center">
         <div className="mb-8">
-          <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-primary-glow p-1">
-            <div className="w-full h-full rounded-full bg-background flex items-center justify-center text-6xl font-bold text-gradient">
-              SH
-            </div>
+          <div className="w-40 h-40 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-primary-glow p-1 shadow-elegant">
+            <img 
+              src={profileImage} 
+              alt="Sasindu Hasarinda" 
+              className="w-full h-full rounded-full object-cover"
+            />
           </div>
           <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tight">
             Sasindu Hasarinda
