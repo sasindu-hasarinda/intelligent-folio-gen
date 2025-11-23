@@ -1,43 +1,264 @@
-import { Button } from "@/components/ui/button";
-import { Download, Mail } from "lucide-react";
-import profileImage from "@/assets/profile.png";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Github, Linkedin, Mail, Download } from "lucide-react";
+import profile from "../images/profile.png";
+
+const fallbackInitials = "SH";
+
+const fadeUpVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const buttonHover = {
+  scale: 1.05,
+  boxShadow: "0 10px 15px rgba(6, 182, 212, 0.5)",
+};
+
+const iconHover = {
+  scale: 1.2,
+  color: "#0d9488",
+  transition: { type: "spring", stiffness: 300 },
+};
 
 const Hero = () => {
-  return (
-    <section className="min-h-screen flex items-center justify-center px-4 py-20 animate-fade-up">
-      <div className="max-w-6xl w-full text-center">
-        <div className="mb-8">
-          <div className="w-40 h-40 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-primary-glow p-1 shadow-elegant">
-            <img 
-              src={profileImage} 
-              alt="Sasindu Hasarinda" 
-              className="w-full h-full rounded-full object-cover"
-            />
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tight">
-            Sasindu Hasarinda
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-6">
-            Software Engineer Intern | Frontend Developer | IT Undergraduate
-          </p>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            Passionate about building modern web applications, solving problems, and learning cutting-edge technologies.
-          </p>
-        </div>
+  const [currentTagline, setCurrentTagline] = useState(0);
+  const [imgError, setImgError] = useState(false);
+  const [taglineProgress, setTaglineProgress] = useState("");
+  const fullTagline = "IT & Quality Assurance Professional";
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" className="gap-2">
-            <Download className="w-5 h-5" />
-            Download CV
-          </Button>
-          <Button size="lg" variant="outline" className="gap-2">
-            <Mail className="w-5 h-5" />
-            Contact Me
-          </Button>
-        </div>
-      </div>
+  useEffect(() => {
+    // Typewriter effect for tagline
+    let timer: NodeJS.Timeout;
+    if (taglineProgress.length < fullTagline.length) {
+      timer = setTimeout(() => {
+        setTaglineProgress(fullTagline.slice(0, taglineProgress.length + 1));
+      }, 100);
+    }
+    return () => clearTimeout(timer);
+  }, [taglineProgress]);
+
+  const cvHref = "/Sasindu_Hasarinda_CV.pdf";
+
+  return (
+    <section
+      id="hero"
+      className="relative min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-16 pt-20 md:pt-28 pb-16 bg-gradient-to-b from-white via-teal-50 to-cyan-50 overflow-hidden"
+      aria-label="Introduction section"
+    >
+      {/* Subtle rotating gradient blob */}
+      <div
+        aria-hidden="true"
+        className="absolute rounded-full w-[400px] h-[400px] bg-gradient-to-tr from-teal-300 to-cyan-300 opacity-10 animate-spin-slow -top-20 -left-20"
+      />
+
+      {/* Profile Image Container */}
+      <motion.div
+        className="rounded-full shadow-lg border-2 border-transparent hover:border-teal-500 cursor-pointer flex-shrink-0 mb-8 md:mb-0 md:mr-16 flex items-center justify-center"
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+        variants={fadeUpVariants}
+        whileHover={{ scale: 1.05, boxShadow: "0 0 20px #06B6D4" }}
+        transition={{ type: "spring", stiffness: 140, damping: 15, delay: 0.2 }}
+        style={{ width: 280, height: 280 }}
+      >
+        {!imgError ? (
+          <img
+            src={profile}
+            alt="Sasindu Hasarinda Profile"
+            onError={() => setImgError(true)}
+            className="w-[280px] h-[280px] rounded-full object-cover object-center shadow-md select-none"
+            loading="lazy"
+            draggable={false}
+            style={{ cursor: "pointer" }}
+            priority="true"
+          />
+        ) : (
+          <div className="w-[280px] h-[280px] rounded-full bg-teal-500 flex items-center justify-center">
+            <span className="text-7xl font-extrabold text-white select-none">
+              {fallbackInitials}
+            </span>
+          </div>
+        )}
+      </motion.div>
+
+      {/* Text Content */}
+      <motion.div
+        className="max-w-xl flex flex-col items-center md:items-start text-center md:text-left relative z-10"
+        initial="hidden"
+        animate="visible"
+        variants={fadeUpVariants}
+        transition={{ delay: 0.4, duration: 0.6 }}
+      >
+        {/* Name */}
+        <motion.h1
+          className="text-6xl sm:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-teal-700 mb-2 select-text"
+          tabIndex={0}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          Sasindu Hasarinda
+        </motion.h1>
+
+        {/* Tagline */}
+        <motion.p
+          className="text-2xl font-semibold text-teal-600 mb-6 h-8 min-h-[32px] select-text"
+          tabIndex={0}
+          aria-label={fullTagline}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+        >
+          {taglineProgress}
+          <span className="blinking-cursor" aria-hidden="true">
+            |
+          </span>
+        </motion.p>
+
+        {/* Description */}
+        <motion.p
+          className="text-gray-600 text-lg max-w-lg mb-8 select-text"
+          tabIndex={0}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+        >
+          Ensuring software quality, optimizing processes, and delivering
+          reliable IT support with precision and attention to detail.
+        </motion.p>
+
+        {/* Social Icons */}
+        <motion.div
+          className="flex space-x-8 mb-10 text-teal-600"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1 }}
+        >
+          {[
+            {
+              href: "https://github.com/sasinduhasarinda",
+              label: "GitHub",
+              icon: <Github size={30} />,
+            },
+            {
+              href: "https://linkedin.com/in/sasinduhasarinda",
+              label: "LinkedIn",
+              icon: <Linkedin size={30} />,
+            },
+            {
+              href: "mailto:sasinduhasarinda1998@gmail.com",
+              label: "Email",
+              icon: <Mail size={30} />,
+            },
+          ].map(({ href, label, icon }) => (
+            <motion.a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="hover:text-teal-500 shadow-lg rounded-full p-3 transition cursor-pointer"
+              whileHover={iconHover}
+              tabIndex={0}
+            >
+              {icon}
+            </motion.a>
+          ))}
+        </motion.div>
+
+        {/* CTA Buttons */}
+        <motion.div
+          className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 w-full max-w-md justify-center md:justify-start"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.3 }}
+        >
+          <motion.a
+            href="#projects"
+            className="flex-1 px-6 py-4 bg-teal-600 rounded-full text-white font-semibold shadow-lg transition text-center cursor-pointer select-none"
+            whileHover={buttonHover}
+            tabIndex={0}
+          >
+            View Projects
+          </motion.a>
+          <motion.a
+            href="#contact"
+            className="flex-1 px-6 py-4 border-2 border-teal-600 rounded-full text-teal-600 font-semibold shadow-lg transition text-center cursor-pointer select-none"
+            whileHover={buttonHover}
+            tabIndex={0}
+          >
+            Get In Touch
+          </motion.a>
+          <motion.a
+            href={cvHref}
+            download
+            className="flex-1 px-6 py-4 bg-teal-600 rounded-full text-white font-semibold shadow-lg hover:scale-105 transition transform cursor-pointer flex items-center justify-center space-x-2 select-none"
+            aria-label="Download CV"
+            whileHover={buttonHover}
+            tabIndex={0}
+          >
+            <Download size={20} />
+            <span>Download CV</span>
+          </motion.a>
+        </motion.div>
+
+        {/* Scroll down indicator */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-teal-600 cursor-pointer select-none"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-8 w-8"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+          <span className="sr-only">Scroll down</span>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };
 
 export default Hero;
+
+/* CSS (can be included in global CSS or CSS module)
+.blinking-cursor {
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+*/

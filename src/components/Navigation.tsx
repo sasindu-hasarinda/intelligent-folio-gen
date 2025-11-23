@@ -1,83 +1,72 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
 
-const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+import React, { useState, useEffect } from "react";
+
+const navLinks = [
+  { name: "home", label: "Home" },
+  { name: "about", label: "About" },
+  { name: "experience", label: "Experience" },
+  { name: "education", label: "Education" },
+  { name: "projects", label: "Projects" },
+  { name: "skills", label: "Skills" },
+  { name: "contact", label: "Contact" },
+];
+
+export const Navigation = () => {
+  const [activeSection, setActiveSection] = useState<string>("about");
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    const updateActiveSection = () => {
+      const hash = window.location.hash.replace("#", "") || "about";
+      setActiveSection(hash.toLowerCase());
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    updateActiveSection(); // Set initially on mount
+
+    window.addEventListener("hashchange", updateActiveSection);
+    return () => {
+      window.removeEventListener("hashchange", updateActiveSection);
+    };
   }, []);
 
-  const navLinks = [
-    { href: "#about", label: "About" },
-    { href: "#experience", label: "Experience" },
-    { href: "#education", label: "Education" },
-    { href: "#projects", label: "Projects" },
-    { href: "#skills", label: "Skills" },
-    { href: "#certifications", label: "Certifications" },
-    { href: "#contact", label: "Contact" },
-  ];
-
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/95 backdrop-blur-sm shadow-md" : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <a href="#" className="text-xl font-bold text-gradient">
-            SH
-          </a>
+    <header className="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
+      <nav className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16">
+        {/* Logo */}
+        <a
+          href="#home"
+          aria-label="Home"
+          className="text-3xl font-extrabold text-[#0f766e]"
+          onClick={() => setActiveSection("home")}
+        >
+          SH
+        </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
+        {/* Navigation Links */}
+        <ul className="hidden md:flex space-x-10">
+          {navLinks.map((link) => (
+            <li key={link.name}>
               <a
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                href={`#${link.name}`}
+                className={
+                  "font-semibold text-[#1f2937] transition duration-200 " +
+                  (activeSection === link.name
+                    ? "font-bold border-b-2 border-teal-600 pb-1"
+                    : "hover:text-teal-600 hover:underline")
+                }
+                aria-current={activeSection === link.name ? "page" : undefined}
+                onClick={() => setActiveSection(link.name)}
               >
                 {link.label}
               </a>
-            ))}
-          </div>
+            </li>
+          ))}
+        </ul>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X /> : <Menu />}
-          </Button>
+        {/* Mobile Menu - optional */}
+        <div className="md:hidden">
+          {/* Implement mobile menu button here if needed */}
         </div>
-
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="block py-2 text-muted-foreground hover:text-primary transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-        )}
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
-
-export default Navigation;
