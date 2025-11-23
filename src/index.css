@@ -121,6 +121,7 @@ All colors MUST be HSL.
     animation: fade-up 0.6s ease-out;
   }
 
+
   @keyframes fade-up {
     from {
       opacity: 0;
@@ -130,5 +131,12 @@ All colors MUST be HSL.
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .clean-button::before,
+  .clean-button::after {
+    content: none !important;
+    background: none !important;
+    display: none !important;
   }
 }

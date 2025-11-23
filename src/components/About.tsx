@@ -57,7 +57,7 @@ const About = () => {
           </a>
 
           <a
-            href="https://linkedin.com/in/sasindu-hasarinda-08957a238"
+            href="https://www.linkedin.com/in//sasindu-hasarinda-08957a238/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 text-[#06B6D4] hover:text-teal-500 transition-transform transform hover:scale-110"

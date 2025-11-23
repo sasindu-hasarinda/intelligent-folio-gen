@@ -18,7 +18,7 @@ const buttonHover = {
 const iconHover = {
   scale: 1.2,
   color: "#0d9488",
-  transition: { type: "spring", stiffness: 300 },
+  transition: { type: "spring" as any, stiffness: 300 },
 };
 
 const Hero = () => {
@@ -43,7 +43,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-16 pt-20 md:pt-28 pb-16 bg-gradient-to-b from-white via-teal-50 to-cyan-50 overflow-hidden"
+      className="relative min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-16 pt-20 md:pt-28 pb-16 bg-cyan-100 overflow-hidden"
       aria-label="Introduction section"
     >
       {/* Subtle rotating gradient blob */}
@@ -72,7 +72,6 @@ const Hero = () => {
             loading="lazy"
             draggable={false}
             style={{ cursor: "pointer" }}
-            priority="true"
           />
         ) : (
           <div className="w-[280px] h-[280px] rounded-full bg-teal-500 flex items-center justify-center">
@@ -143,7 +142,7 @@ const Hero = () => {
               icon: <Github size={30} />,
             },
             {
-              href: "https://linkedin.com/in/sasinduhasarinda",
+              href: "https://www.linkedin.com/in//sasindu-hasarinda-08957a238/",
               label: "LinkedIn",
               icon: <Linkedin size={30} />,
             },
@@ -170,37 +169,42 @@ const Hero = () => {
 
         {/* CTA Buttons */}
         <motion.div
-          className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 w-full max-w-md justify-center md:justify-start"
+          className="flex space-x-4 w-full max-w-3xl justify-center md:justify-start bg-cyan-50 p-4 rounded-lg"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.3 }}
         >
+          {/* View Projects */}
           <motion.a
             href="#projects"
-            className="flex-1 px-6 py-4 bg-teal-600 rounded-full text-white font-semibold shadow-lg transition text-center cursor-pointer select-none"
+            className="h-12 rounded-full bg-[#0d9488] text-white font-bold shadow-lg transition px-6 flex items-center justify-center select-none cursor-pointer text-center"
             whileHover={buttonHover}
             tabIndex={0}
           >
             View Projects
           </motion.a>
+
+          {/* Get In Touch */}
           <motion.a
             href="#contact"
-            className="flex-1 px-6 py-4 border-2 border-teal-600 rounded-full text-teal-600 font-semibold shadow-lg transition text-center cursor-pointer select-none"
+            className="h-12 rounded-full bg-white border-2 border-[#0d9488] text-[#0d9488] font-bold shadow-lg transition px-6 flex items-center justify-center select-none cursor-pointer text-center clean-button"
             whileHover={buttonHover}
             tabIndex={0}
           >
             Get In Touch
           </motion.a>
+
+          {/* Download CV */}
           <motion.a
             href={cvHref}
             download
-            className="flex-1 px-6 py-4 bg-teal-600 rounded-full text-white font-semibold shadow-lg hover:scale-105 transition transform cursor-pointer flex items-center justify-center space-x-2 select-none"
+            className="h-12 rounded-full bg-[#0d9488] text-white font-bold shadow-lg transition px-6 flex items-center justify-center select-none cursor-pointer text-center"
             aria-label="Download CV"
             whileHover={buttonHover}
             tabIndex={0}
           >
+            <span className="mr-2">Download CV</span>
             <Download size={20} />
-            <span>Download CV</span>
           </motion.a>
         </motion.div>
 
